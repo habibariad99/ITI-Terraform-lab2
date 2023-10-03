@@ -4,5 +4,7 @@ terraform{
   key ="terraform.tfstate" 
   region = "us-east-1" 
   dynamodb_table = "habiba-terraform-dynamo-db"
+  profile        = "default"
+  shared_credentials_file= "/credentials"
   }
 }
