@@ -1,0 +1,41 @@
+pipeline {
+  agent any
+
+  parameters {
+    choice(
+      name: 'Environment',
+      choices: ['dev', 'staging', 'production'],
+      description: 'Select the environment to apply Terraform code'
+    )
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        // Checkout your source code repository here
+      }
+    }
+
+    stage('Apply Terraform') {
+      steps {
+        script {
+          def environment = "${params.Environment}"
+
+          // Customize this block to apply Terraform code based on the selected environment
+          if (environment == 'dev') {
+            // Apply Terraform for the dev environment
+            sh 'terraform apply -var-file=dev.tfvars'
+          } else if (environment == 'staging') {
+            // Apply Terraform for the staging environment
+            sh 'terraform apply -var-file=staging.tfvars'
+          } else if (environment == 'production') {
+            // Apply Terraform for the production environment
+            sh 'terraform apply -var-file=prod.tfvars'
+          } else {
+            error "Invalid environment selected!"
+          }
+        }
+      }
+    }
+  }
+}
